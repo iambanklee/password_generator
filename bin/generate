@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "password_generator"
+
+puts PasswordGenerator.run(length: 10, uppercase: true , lowercase: true, number: 3, special: 3)
