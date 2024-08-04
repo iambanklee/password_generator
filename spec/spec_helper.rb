@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require "password_generator"
-
 # test coverage
 require "simplecov"
 SimpleCov.start
+
+require "password_generator"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
