@@ -12,50 +12,70 @@ RSpec.describe PasswordGenerator::Generator do
   let(:special) { 0 }
 
   describe "#run" do
-    subject(:generate_password) { generator_instance.run }
+    shared_examples "generate_password" do
+      it "generates password in given length" do
+        expect(generate_password.size).to eq(length)
+      end
 
-    it "generates password in given length" do
-      expect(generate_password.size).to eq(length)
-    end
+      context "when uppercase options is false" do
+        let(:uppercase) { false }
 
-    context "when uppercase options is false" do
-      let(:uppercase) { false }
+        it "generates password does not contains uppercase characters" do
+          uppercase_counter = generate_password.scan(/#{PasswordGenerator::UPPERCASE}/).size
 
-      it "generates password does not contains uppercase characters" do
-        uppercase_counter = generate_password.scan(/#{PasswordGenerator::UPPERCASE}/).size
+          expect(uppercase_counter).to eq(0)
+        end
+      end
 
-        expect(uppercase_counter).to eq(0)
+      context "when lowercase options is false" do
+        let(:lowercase) { false }
+
+        it "generates password does not contains lowercase characters" do
+          lowercase_counter = generate_password.scan(/#{PasswordGenerator::LOWERCASE}/).size
+
+          expect(lowercase_counter).to eq(0)
+        end
+      end
+
+      context "when number options is given" do
+        let(:number) { 2 }
+
+        it "generates password contains exactly given number times" do
+          number_counter = generate_password.scan(/#{PasswordGenerator::NUMBER}/).size
+
+          expect(number_counter).to eq(number)
+        end
+      end
+
+      context "when special options is given" do
+        let(:special) { 2 }
+
+        it "generates password contains exactly given special times" do
+          special_counter = generate_password.scan(/#{PasswordGenerator::SPECIAL}/).size
+
+          expect(special_counter).to eq(special)
+        end
       end
     end
 
-    context "when lowercase options is false" do
-      let(:lowercase) { false }
+    subject(:generate_password) { generator_instance.run(strategy:) }
 
-      it "generates password does not contains lowercase characters" do
-        lowercase_counter = generate_password.scan(/#{PasswordGenerator::LOWERCASE}/).size
+    context "with random_position strategy" do
+      let(:strategy) { :random_position }
 
-        expect(lowercase_counter).to eq(0)
-      end
+      it_behaves_like "generate_password"
     end
 
-    context "when number options is given" do
-      let(:number) { 2 }
+    context "with replacement strategy" do
+      let(:strategy) { :replacement }
 
-      it "generates password contains exactly given number times" do
-        number_counter = generate_password.scan(/#{PasswordGenerator::NUMBER}/).size
-
-        expect(number_counter).to eq(number)
-      end
+      it_behaves_like "generate_password"
     end
 
-    context "when special options is given" do
-      let(:special) { 2 }
+    context "with shuffle_strategy strategy" do
+      let(:strategy) { :shuffle }
 
-      it "generates password contains exactly given special times" do
-        special_counter = generate_password.scan(/#{PasswordGenerator::SPECIAL}/).size
-
-        expect(special_counter).to eq(special)
-      end
+      it_behaves_like "generate_password"
     end
   end
 

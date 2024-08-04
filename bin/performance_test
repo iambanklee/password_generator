@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require "password_generator"
+require "benchmark"
+
+length = 10
+uppercase = true
+lowercase = true
+number = 3
+special = 3
+
+generator = PasswordGenerator::Generator.new(length:, uppercase:, lowercase:, number:, special:)
+
+Benchmark.bmbm do |x|
+  x.report("random_position:") { generator.run }
+  x.report("replacement:")     { generator.run }
+  x.report("shuffle:")         { generator.run }
+end

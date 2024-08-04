@@ -26,7 +26,18 @@ module PasswordGenerator
       validate!
     end
 
-    def run
+    def run(strategy: :random_position)
+      case strategy
+      when :random_position
+        random_position_password
+      when :replacement
+        replacement_strategy
+      when :shuffle
+        shuffle_strategy
+      end
+    end
+
+    def random_position_password
       password = ""
 
       (0...length).each do |i|
@@ -42,6 +53,31 @@ module PasswordGenerator
       end
 
       password
+    end
+
+    def replacement_strategy
+      password = ""
+
+      (0...length).each do |_|
+        password += general_buckets.sample.call.to_s
+      end
+
+      number_positions.each { |i| password[i] = number_char.call.to_s }
+      special_positions.each { |i| password[i] = special_char.call.to_s }
+
+      password
+    end
+
+    def shuffle_strategy
+      password = []
+
+      general_bucket_counter = length - number - special
+
+      number.times { |i| password << number_char.call }
+      special.times { |i| password << special_char.call }
+      general_bucket_counter.times { |i| password << general_buckets.sample.call }
+
+      password.shuffle.join()
     end
 
     private
