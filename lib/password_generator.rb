@@ -43,6 +43,7 @@ module PasswordGenerator
     end
 
     raise InvalidOption, errors.join(",") unless errors.empty?
+    raise InvalidOption, "number + special cannot be more than length" if number + special > length
 
     (0...length).each do |_|
       password += bucket.sample.call.to_s

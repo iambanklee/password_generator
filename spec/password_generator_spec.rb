@@ -56,6 +56,13 @@ RSpec.describe PasswordGenerator do
 
         it_behaves_like "InvalidOption"
       end
+
+      context "when sum of number and special is more than length" do
+        let(:number) { 4 }
+        let(:special) { 5 }
+
+        it_behaves_like "InvalidOption"
+      end
     end
   end
 end
