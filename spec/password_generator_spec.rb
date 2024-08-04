@@ -29,6 +29,13 @@ RSpec.describe PasswordGenerator do
         end
       end
 
+      context "when uppercase is not a boolean" do
+        let(:uppercase) { "A" }
+
+        it "raises InvalidOption error" do
+          expect { generate_password }.to raise_error(PasswordGenerator::InvalidOption)
+        end
+      end
     end
   end
 end

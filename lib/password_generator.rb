@@ -15,6 +15,7 @@ module PasswordGenerator
     errors = []
 
     errors << "length must be an integer" unless length.is_a?(Integer)
+    errors << "uppercase must be a boolean value" unless [true, false].include?(uppercase)
 
     raise InvalidOption.new(errors.join(",")) unless errors.empty?
 
