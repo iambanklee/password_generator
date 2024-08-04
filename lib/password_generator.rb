@@ -40,7 +40,6 @@ module PasswordGenerator
 
     while special_position.length < special
       position = rand(length)
-
       next if number_position.include?(position) || special_position.include?(position)
 
       special_position << position
