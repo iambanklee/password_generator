@@ -26,6 +26,26 @@ RSpec.describe PasswordGenerator do
       expect(generate_password.size).to eq(length)
     end
 
+    context "when number options is given" do
+      let(:number) { 2 }
+
+      it "generates password contains exactly given number times" do
+        number_counter = generate_password.scan(/#{PasswordGenerator::NUMBER}/).size
+
+        expect(number_counter).to eq(number)
+      end
+    end
+
+    context "when special options is given" do
+      let(:special) { 2 }
+
+      it "generates password contains exactly given special times" do
+        special_counter = generate_password.scan(/#{PasswordGenerator::SPECIAL}/).size
+
+        expect(special_counter).to eq(special)
+      end
+    end
+
     describe "option validation" do
       context "when length is not an integer" do
         let(:length) { "A" }

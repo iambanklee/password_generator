@@ -14,39 +14,48 @@ module PasswordGenerator
   def self.generate(length:, uppercase:, lowercase:, number:, special:)
     password = ""
     errors = []
-    bucket = []
+    general_bucket = []
 
     errors << "length must be an integer" unless length.is_a?(Integer)
-
-    if [true, false].include?(uppercase)
-      bucket << upper_case_char
-    else
-      errors << "uppercase must be a boolean value"
-    end
-
-    if [true, false].include?(lowercase)
-      bucket << lower_case_char
-    else
-      errors << "lowercase must be a boolean value"
-    end
-
-    if number.is_a?(Integer)
-      bucket << number_char
-    else
-      errors << "number must be an integer"
-    end
-
-    if special.is_a?(Integer)
-      bucket << special_char
-    else
-      errors << "special must be an integer"
-    end
+    errors << "uppercase must be a boolean value" unless [true, false].include?(uppercase)
+    errors << "lowercase must be a boolean value" unless [true, false].include?(lowercase)
+    errors << "number must be an integer" unless number.is_a?(Integer)
+    errors << "special must be an integer" unless special.is_a?(Integer)
 
     raise InvalidOption, errors.join(",") unless errors.empty?
     raise InvalidOption, "number + special cannot be more than length" if number + special > length
 
-    (0...length).each do |_|
-      password += bucket.sample.call.to_s
+    general_bucket << upper_case_char if uppercase
+    general_bucket << lower_case_char if lowercase
+
+    number_position = []
+    special_position = []
+
+    while number_position.length < number
+      position = rand(length)
+      next if number_position.include?(position)
+
+      number_position << position
+    end
+
+    while special_position.length < special
+      position = rand(length)
+
+      next if number_position.include?(position) || special_position.include?(position)
+
+      special_position << position
+    end
+
+    (0...length).each do |i|
+      character_rule = if number_position.include?(i)
+                         number_char
+                       elsif special_position.include?(i)
+                         special_char
+                       else
+                         general_bucket.sample
+                       end
+
+      password += character_rule.call.to_s
     end
 
     password
