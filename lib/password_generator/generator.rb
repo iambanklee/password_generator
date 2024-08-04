@@ -73,11 +73,11 @@ module PasswordGenerator
 
       general_bucket_counter = length - number - special
 
-      number.times { |i| password << number_char.call }
-      special.times { |i| password << special_char.call }
-      general_bucket_counter.times { |i| password << general_buckets.sample.call }
+      number.times { |_| password << number_char.call }
+      special.times { |_| password << special_char.call }
+      general_bucket_counter.times { |_| password << general_buckets.sample.call }
 
-      password.shuffle.join()
+      password.shuffle.join
     end
 
     private

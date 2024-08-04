@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    password_generator (1.0.1)
+    password_generator (1.0.2)
 
 GEM
   remote: https://rubygems.org/

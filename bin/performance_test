@@ -11,8 +11,18 @@ special = 3
 
 generator = PasswordGenerator::Generator.new(length:, uppercase:, lowercase:, number:, special:)
 
+puts "============================== Single run =============================="
 Benchmark.bmbm do |x|
-  x.report("random_position:") { generator.run }
-  x.report("replacement:")     { generator.run }
-  x.report("shuffle:")         { generator.run }
+  x.report("random_position:") { generator.run(strategy: :random_positions) }
+  x.report("replacement:")     { generator.run(strategy: :replacement) }
+  x.report("shuffle:")         { generator.run(strategy: :shuffle)}
+end
+
+puts
+puts "============================== 1_000_000 run =============================="
+execution_counter = 1_000_000
+Benchmark.bmbm do |x|
+  x.report("random_position:") { execution_counter.times { |_| generator.run(strategy: :random_positions) }}
+  x.report("replacement:")     { execution_counter.times { |_| generator.run(strategy: :replacement) }}
+  x.report("shuffle:")         { execution_counter.times { |_| generator.run(strategy: :shuffle)}}
 end
