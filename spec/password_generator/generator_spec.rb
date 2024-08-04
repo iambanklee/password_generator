@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/password_generator/generator'
+require_relative "../../lib/password_generator/generator"
 
 RSpec.describe PasswordGenerator::Generator do
   let(:generator_instance) { described_class.new(length:, uppercase:, lowercase:, number:, special:) }
@@ -70,35 +70,35 @@ RSpec.describe PasswordGenerator::Generator do
 
     context "when length is not an integer" do
       let(:length) { "A" }
-      let(:error_message_regex) { Regexp.new(/length must be a valid integer/) }
+      let(:error_message_regex) { /length must be a valid integer/ }
 
       it_behaves_like "InvalidOption"
     end
 
     context "when uppercase is not a boolean" do
       let(:uppercase) { "A" }
-      let(:error_message_regex) { Regexp.new(/uppercase must be a boolean value/) }
+      let(:error_message_regex) { /uppercase must be a boolean value/ }
 
       it_behaves_like "InvalidOption"
     end
 
     context "when lowercase is not a boolean" do
       let(:lowercase) { "A" }
-      let(:error_message_regex) { Regexp.new(/lowercase must be a boolean value/) }
+      let(:error_message_regex) { /lowercase must be a boolean value/ }
 
       it_behaves_like "InvalidOption"
     end
 
     context "when number is not an integer" do
       let(:number) { "A" }
-      let(:error_message_regex) { Regexp.new(/number must be a valid integer/) }
+      let(:error_message_regex) { /number must be a valid integer/ }
 
       it_behaves_like "InvalidOption"
     end
 
     context "when special is not an integer" do
       let(:special) { "A" }
-      let(:error_message_regex) { Regexp.new(/special must be a valid integer/) }
+      let(:error_message_regex) { /special must be a valid integer/ }
 
       it_behaves_like "InvalidOption"
     end
@@ -106,7 +106,7 @@ RSpec.describe PasswordGenerator::Generator do
     context "when sum of number and special is more than length" do
       let(:number) { 4 }
       let(:special) { 5 }
-      let(:error_message_regex) { Regexp.new(/sum of number and special cannot be more than length/) }
+      let(:error_message_regex) { /sum of number and special cannot be more than length/ }
 
       it_behaves_like "InvalidOption"
     end

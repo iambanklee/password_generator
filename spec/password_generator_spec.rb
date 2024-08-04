@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../lib/password_generator'
-require_relative '../lib/password_generator/generator'
+require_relative "../lib/password_generator"
+require_relative "../lib/password_generator/generator"
 
 RSpec.describe PasswordGenerator do
   it "has a version number" do

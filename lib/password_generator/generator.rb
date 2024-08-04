@@ -11,10 +11,8 @@ module PasswordGenerator
   class Generator
     BOOLEAN_VALUES = [true, false].freeze
 
-
     attr_reader :length, :uppercase, :lowercase, :number, :special,
                 :errors
-
 
     def initialize(length:, uppercase:, lowercase:, number:, special:)
       @length = length
