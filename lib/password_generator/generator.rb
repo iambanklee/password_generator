@@ -28,35 +28,14 @@ module PasswordGenerator
 
     def run
       password = ""
-      general_bucket = []
-
-      general_bucket << upper_case_char if uppercase
-      general_bucket << lower_case_char if lowercase
-
-      number_position = []
-      special_position = []
-
-      while number_position.length < number
-        position = rand(length)
-        next if number_position.include?(position)
-
-        number_position << position
-      end
-
-      while special_position.length < special
-        position = rand(length)
-        next if number_position.include?(position) || special_position.include?(position)
-
-        special_position << position
-      end
 
       (0...length).each do |i|
-        character_rule = if number_position.include?(i)
+        character_rule = if number_positions.include?(i)
                            number_char
-                         elsif special_position.include?(i)
+                         elsif special_positions.include?(i)
                            special_char
                          else
-                           general_bucket.sample
+                           general_buckets.sample
                          end
 
         password += character_rule.call.to_s
@@ -68,14 +47,73 @@ module PasswordGenerator
     private
 
     def validate!
-      @errors << "length must be a valid integer" unless length.is_a?(Integer) && length >= 0
-      @errors << "uppercase must be a boolean value" unless BOOLEAN_VALUES.include?(uppercase)
-      @errors << "lowercase must be a boolean value" unless BOOLEAN_VALUES.include?(lowercase)
-      @errors << "number must be a valid integer" unless number.is_a?(Integer) && number >= 0
-      @errors << "special must be a valid integer" unless special.is_a?(Integer) && special >= 0
+      validate_length
+      validate_uppercase
+      validate_lowercase
+      validate_number
+      validate_special
 
       raise InvalidOption, errors.join(",") unless errors.empty?
       raise InvalidOption, "sum of number and special cannot be more than length" if number + special > length
+    end
+
+    def validate_special
+      @errors << "special must be a valid integer" unless special.is_a?(Integer) && special >= 0
+    end
+
+    def validate_number
+      @errors << "number must be a valid integer" unless number.is_a?(Integer) && number >= 0
+    end
+
+    def validate_lowercase
+      @errors << "lowercase must be a boolean value" unless BOOLEAN_VALUES.include?(lowercase)
+    end
+
+    def validate_uppercase
+      @errors << "uppercase must be a boolean value" unless BOOLEAN_VALUES.include?(uppercase)
+    end
+
+    def validate_length
+      @errors << "length must be a valid integer" unless length.is_a?(Integer) && length >= 0
+    end
+
+    def general_buckets
+      return @general_buckets if defined? @general_buckets
+
+      @general_buckets = []
+      @general_buckets << upper_case_char if uppercase
+      @general_buckets << lower_case_char if lowercase
+
+      @general_buckets
+    end
+
+    def number_positions
+      return @number_positions if defined? @number_positions
+
+      @number_positions = []
+      while @number_positions.length < number
+        position = rand(length)
+        next if @number_positions.include?(position)
+
+        @number_positions << position
+      end
+
+      @number_positions
+    end
+
+    def special_positions
+      return @special_positions if defined? @special_positions
+
+      @special_positions = []
+
+      while @special_positions.length < special
+        position = rand(length)
+        next if number_positions.include?(position) || @special_positions.include?(position)
+
+        @special_positions << position
+      end
+
+      @special_positions
     end
 
     def upper_case_char
