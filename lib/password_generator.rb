@@ -4,6 +4,7 @@ require_relative "password_generator/version"
 
 module PasswordGenerator
   class Error < StandardError; end
+  class InvalidOption < StandardError; end
 
   UPPERCASE = ("A".."Z").to_a.freeze
   LOWERCASE = ("a".."z").to_a.freeze
@@ -11,6 +12,12 @@ module PasswordGenerator
   SPECIAL = %w[@ % ! ? * ^ &]
 
   def self.generate(length:, uppercase:, lowercase:, number:, special:)
+    errors = []
+
+    errors << "length must be an integer" unless length.is_a?(Integer)
+
+    raise InvalidOption.new(errors.join(",")) unless errors.empty?
+
     bucket = [upper_case_char, lower_case_char, number_char, special_char]
     password = ""
 

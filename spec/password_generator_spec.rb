@@ -19,5 +19,16 @@ RSpec.describe PasswordGenerator do
     it "generates password in given length" do
       expect(generate_password.size).to eq(length)
     end
+
+    describe "option validation" do
+      context "when length is not an integer" do
+        let(:length) { "A" }
+
+        it "raises InvalidOption error" do
+          expect { generate_password }.to raise_error(PasswordGenerator::InvalidOption)
+        end
+      end
+
+    end
   end
 end
