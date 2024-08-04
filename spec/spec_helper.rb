@@ -3,7 +3,7 @@
 require "password_generator"
 
 # test coverage
-require 'simplecov'
+require "simplecov"
 SimpleCov.start
 
 RSpec.configure do |config|
