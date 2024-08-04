@@ -12,6 +12,6 @@ group :development, :test do
   gem "guard"
   gem "guard-rspec"
   gem "rspec"
-  gem 'rubocop', require: false
-  gem "simplecov"
+  gem "rubocop", require: false
+  gem "simplecov", require: false
 end
