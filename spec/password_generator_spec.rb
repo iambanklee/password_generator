@@ -26,6 +26,26 @@ RSpec.describe PasswordGenerator do
       expect(generate_password.size).to eq(length)
     end
 
+    context "when uppercase options is false" do
+      let(:uppercase) { false }
+
+      it "generates password does not contains uppercase characters" do
+        uppercase_counter = generate_password.scan(/#{PasswordGenerator::UPPERCASE}/).size
+
+        expect(uppercase_counter).to eq(0)
+      end
+    end
+
+    context "when lowercase options is false" do
+      let(:lowercase) { false }
+
+      it "generates password does not contains lowercase characters" do
+        lowercase_counter = generate_password.scan(/#{PasswordGenerator::LOWERCASE}/).size
+
+        expect(lowercase_counter).to eq(0)
+      end
+    end
+
     context "when number options is given" do
       let(:number) { 2 }
 

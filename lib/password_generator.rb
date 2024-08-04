@@ -65,7 +65,7 @@ module PasswordGenerator
   end
 
   def self.lower_case_char
-    -> { UPPERCASE.sample }
+    -> { LOWERCASE.sample }
   end
 
   def self.number_char
