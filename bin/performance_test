@@ -13,7 +13,7 @@ generator = PasswordGenerator::Generator.new(length:, uppercase:, lowercase:, nu
 
 puts "============================== Single run =============================="
 Benchmark.bmbm do |x|
-  x.report("random_position:") { generator.run(strategy: :random_positions) }
+  x.report("random_position:") { generator.run(strategy: :random_position) }
   x.report("replacement:")     { generator.run(strategy: :replacement) }
   x.report("shuffle:")         { generator.run(strategy: :shuffle)}
 end
@@ -22,7 +22,7 @@ puts
 puts "============================== 1_000_000 run =============================="
 execution_counter = 1_000_000
 Benchmark.bmbm do |x|
-  x.report("random_position:") { execution_counter.times { |_| generator.run(strategy: :random_positions) }}
+  x.report("random_position:") { execution_counter.times { |_| generator.run(strategy: :random_position) }}
   x.report("replacement:")     { execution_counter.times { |_| generator.run(strategy: :replacement) }}
   x.report("shuffle:")         { execution_counter.times { |_| generator.run(strategy: :shuffle)}}
 end

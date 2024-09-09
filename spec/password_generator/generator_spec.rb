@@ -77,6 +77,15 @@ RSpec.describe PasswordGenerator::Generator do
 
       it_behaves_like "generate_password"
     end
+
+    context "with invalid strategy" do
+      let(:strategy) { :it_works }
+      let(:error_message_regex) { /it_works is an invalid option/ }
+
+      it "raises InvalidOption error" do
+        expect { subject }.to raise_error(PasswordGenerator::InvalidOption, error_message_regex)
+      end
+    end
   end
 
   describe "parameter validation" do

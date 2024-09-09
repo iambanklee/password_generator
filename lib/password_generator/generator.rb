@@ -34,6 +34,8 @@ module PasswordGenerator
         replacement_strategy
       when :shuffle
         shuffle_strategy
+      else
+        raise InvalidOption, "#{strategy} is an invalid option"
       end
     end
 
